@@ -1,7 +1,7 @@
 # Mustafa Ali
 # Battleship - Assignment 2
 # Block 5
-# 24th May
+# 1st June
 
 # This program is my own work - MA
 
