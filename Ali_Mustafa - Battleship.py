@@ -19,11 +19,27 @@ if platform.system() == "Linux":
     os.environ["SDL_VIDEO_HIGHDPI_ENABLED"] = "0"
 
 pygame.init()
-screen = pygame.display.set_mode((576, 1024))
+screen = pygame.display.set_mode((900, 900))
 clock = pygame.time.Clock()
 
-bg_surface = pygame.image.load("assets/background-day.png")
-bg_surface = pygame.transform.scale2x(bg_surface)
+game_font = pygame.font.Font('Impacted.ttf',40)
+title_surface = game_font.render("BATTLESHIP", True, (255,255,255))
+title_rect = title_surface.get_rect(center = (450, 25))
+
+def makeLines():
+    for i in range(100, 900, 100):
+        pygame.draw.line(screen, [0,0,0], (i, 100), (i, 800), 2)
+    for i in range(100, 900, 100):
+        pygame.draw.line(screen, [0,0,0], (100, i), (800, i), 2)
+
+def makeRects():
+    gridRects = []
+    for x in range(100, 800, 100):
+        for y in range(100, 800, 100):
+            cellRect = pygame.Rect(x, y, 100, 100)
+            gridRects.append(cellRect)
+    return gridRects
+
 
 while True:
     for event in pygame.event.get():
@@ -31,7 +47,16 @@ while True:
             pygame.quit()
             sys.exit()
 
-    screen.blit(bg_surface, (0, 0))
+    mouseP = pygame.mouse.get_pos()
+
+    screen.fill([0,0,0])
+    pygame.draw.rect(screen, [100, 100, 255], (50, 50, 800, 800))
+    screen.blit(title_surface, title_rect)
+    makeLines()
+    rects = makeRects()
+    for cell in rects:
+        if cell.collidepoint(mouseP):
+            pygame.draw.circle(screen, (255, 50, 0), (cell.x + 50, cell.y + 50), 40, 2)
 
     pygame.display.update()
     clock.tick(240)
