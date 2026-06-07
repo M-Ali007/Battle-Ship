@@ -14,6 +14,19 @@ import pygame, sys, random
 import os
 import platform
 
+# GAME VARS
+hits = 0
+tries = 0
+grid = {
+    1:[1,2,3,4,5,6,7],
+    2:[1,2,3,4,5,6,7],
+    3:[1,2,3,4,5,6,7],
+    4:[1,2,3,4,5,6,7],
+    5:[1,2,3,4,5,6,7],
+    6:[1,2,3,4,5,6,7],
+    7:[1,2,3,4,5,6,7]
+}
+
 if platform.system() == "Linux":
     os.environ["SDL_VIDEODRIVER"] = "x11"
     os.environ["SDL_VIDEO_HIGHDPI_ENABLED"] = "0"
@@ -40,6 +53,54 @@ def makeRects():
             gridRects.append(cellRect)
     return gridRects
 
+def setShips():
+    for i in range(1,4):
+        direction = random.randint(0,3)
+        match direction:
+            case 0: # going up
+                while True:
+                    Rx = random.choice(range(1,8))
+                    Ry = random.choice(range(3,8))
+                    if isinstance(grid[Ry][Rx - 1], int) and isinstance(grid[Ry - 1][Rx - 1], int) and isinstance(grid[Ry - 2][Rx - 1], int):
+                        grid[Ry][Rx - 1] = f"X{i}"
+                        grid[Ry - 1][Rx - 1] = f"X{i}"
+                        grid[Ry - 2][Rx - 1] = f"X{i}" 
+                        break
+
+
+            case 1: # going right
+                while True:
+                    Rx = random.choice(range(1,6))
+                    Ry = random.choice(range(1,8))
+                    if isinstance(grid[Ry][Rx - 1], int) and isinstance(grid[Ry][Rx], int) and isinstance(grid[Ry][Rx + 1], int):
+                        grid[Ry][Rx - 1] = f"X{i}"
+                        grid[Ry][Rx] = f"X{i}"
+                        grid[Ry][Rx + 1] = f"X{i}" 
+                        break
+
+            case 2: # going left
+                while True:
+                    Rx = random.choice(range(3,8))
+                    Ry = random.choice(range(1,8))
+                    if isinstance(grid[Ry][Rx - 1], int) and isinstance(grid[Ry][Rx - 2], int) and isinstance(grid[Ry][Rx - 3], int):
+                        grid[Ry][Rx - 1] = f"X{i}"
+                        grid[Ry][Rx - 2] = f"X{i}"
+                        grid[Ry][Rx - 3] = f"X{i}" 
+                        break
+
+            case 3: # going down
+                while True:
+                    Rx = random.choice(range(1,8))
+                    Ry = random.choice(range(1,6))
+                    if isinstance(grid[Ry][Rx - 1], int) and isinstance(grid[Ry + 1][Rx - 1], int) and isinstance(grid[Ry + 2][Rx - 1], int):                    
+                        grid[Ry][Rx - 1] = f"X{i}"
+                        grid[Ry + 1][Rx - 1] = f"X{i}"
+                        grid[Ry + 2][Rx - 1] = f"X{i}" 
+                        break
+    for row in grid:
+        print(row, grid[row])
+
+setShips()
 
 while True:
     for event in pygame.event.get():
