@@ -17,40 +17,6 @@
 #    fixed by moving it outside the loop so the list is built once and reused.
 # 4. Ship placement could go out of bounds — fixed by constraining the random ranges
 #    per direction (e.g. rows 3-7 only when going up, so row-2 is always valid).
-#
-# -------------------------------------------------------------------
-# PSEUDOCODE
-# -------------------------------------------------------------------
-# SET UP grid as 7x7 dictionary, all cells = empty water
-# PLACE 3 ships:
-#     FOR each ship:
-#         PICK a random direction (up / right / down / left)
-#         LOOP until valid spot found (no overlap, within bounds):
-#             PICK random starting cell
-#             IF all 3 cells are empty -> mark them as ship, BREAK
-#
-# BUILD list of cell Rects (drawn once, reused every frame)
-#
-# LOOP forever:
-#     IF user closes window -> QUIT
-#     IF R key pressed -> reset all state and place new ships
-#     IF left click AND game not won:
-#         FIND which cell was clicked
-#         IF cell not already clicked:
-#             IF cell contains a ship -> record HIT, increment hits
-#             ELSE -> record MISS
-#             INCREMENT move counter
-#             IF hits == 9 -> SET game_won, record win time
-#     DRAW background, title, grid lines
-#     IF game_won:
-#         CALCULATE how many rows to colour green (based on time elapsed)
-#         DRAW green rows top to bottom
-#         SHOW "PRESS R TO RESTART" prompt
-#     ELSE:
-#         DRAW hit/miss markers on clicked cells
-#         DRAW hover ring on cell under mouse
-#     DRAW moves counter box (top right)
-#     UPDATE display
 
 import pygame, sys, random
 import os
